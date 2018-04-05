@@ -14,7 +14,8 @@ event_templates($event, qw (
     /etc/pki/tls/certs/traefik.crt
     /etc/pki/tls/private/traefik.key
     /etc/sudoers
-    ));
+    /etc/traefik/traefik.toml
+));
 
 $event = 'traefik-upgrade';
 event_actions($event, qw(

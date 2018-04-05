@@ -1,0 +1,29 @@
+# traefik.toml
+################################################################
+# Global configuration
+################################################################
+
+defaultEntryPoints = ["http", "https"] // 1
+
+[entryPoints] // 2
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+        [[entryPoints.https.tls.certificates]]
+        certFile = "tests/traefik.crt"
+        keyFile = "tests/traefik.key"
+
+[web]
+address = ":8080"
+#[web.auth.basic]
+#  users = ["pab:$apr1$2ZtdZCue$BHq00nxavh6EFmR9OFAfZ1"]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "cab.re"
+watch = true
+exposedbydefault = true

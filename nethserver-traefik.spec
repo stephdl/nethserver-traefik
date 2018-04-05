@@ -27,6 +27,7 @@ Amazon ECS, and a lot more) to manage its configuration automatically and dynami
 %build
 %{makedocs}
 perl createlinks
+mkdir -p root/etc/traefik
 
 %install
 rm -rf $RPM_BUILD_ROOT
