@@ -7,7 +7,7 @@ my $event = 'nethserver-traefik-update';
 event_actions ( $event, 'initialize-default-databases' => '00');
 
 event_actions($event, qw(
-    nethserver-traefik_container 10
+    nethserver-traefik_container 95
 ));
 
 event_templates($event, qw (
@@ -17,11 +17,9 @@ event_templates($event, qw (
     /etc/traefik/traefik.toml
 ));
 
-$event = 'traefik-upgrade';
-event_actions($event, qw(
-    nethserver-traefik_container 10
+event_services($event, qw(
+    httpd restart
 ));
-
 
 $event = 'certificate-update';
 event_actions($event, qw(
