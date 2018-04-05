@@ -1,0 +1,10 @@
+{
+    #Change httpd port for traefic
+    use esmith::ConfigDB;
+    my $db = esmith::ConfigDB->open;
+
+    my $port = $db->get_prop('httpd','TCPPorts') || '';
+    $db->set_prop('httpd','TCPPorts','8000,4430') if ($port ne '8000,4430');
+    '';
+}
+
