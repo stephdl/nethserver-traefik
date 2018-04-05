@@ -1,21 +1,27 @@
 #!/usr/bin/bash
 
 event=$1
-pid=`/usr/sbin/pidof portainer`
+#pid=`/usr/sbin/pidof traefik`
 
-crt='/certs/certs/portainer.crt'
-key='/certs/private/portainer.key'
 
-if [[ $pid -ne '' ]]; then
-    /usr/bin/docker container stop portainer-container || exit 1
-    /usr/bin/docker rm -f portainer-container || exit 1
-fi
+#if [[ $pid -ne '' ]]; then
+    /usr/bin/docker container stop traefik-container || exit 1
+    /usr/bin/docker rm -f traefik-container || exit 1
+#fi
 
-if [[ $event == 'portainer-upgrade' ]]; then
-    /usr/bin/docker image pull portainer/portainer:latest || exit 1
-fi
+docker run -d \
+    -v "/var/run/docker.sock:/var/run/docker.sock" \
+    -v /etc/traefik/traefik.toml:/traefik.toml \
+    -p 80:80 \
+    -p 443:443 \
+    -l traefik.port=8080 \
+    --restart unless-stopped
+    --name traefik-container \
+    traefik:1.3.6-alpine --docker || exit 1
 
-/usr/bin/docker run -d -p 9000:9000 --restart unless-stopped --name portainer-container \
-    -v portainer-data:/data -v "/var/run/docker.sock:/var/run/docker.sock" \
-    -v /etc/pki/tls/:/certs:ro portainer/portainer --ssl --sslcert "${crt}" \
-    --sslkey "${key}" -H unix:///var/run/docker.sock || exit 1
+#    -l traefik.frontend.rule=Host:monitor.example.com \
+
+#/usr/bin/docker run -d -p 9000:9000 --restart unless-stopped --name portainer-container \
+#    -v portainer-data:/data -v "/var/run/docker.sock:/var/run/docker.sock" \
+#    -v /etc/pki/tls/:/certs:ro portainer/portainer --ssl --sslcert "${crt}" \
+#    --sslkey "${key}" -H unix:///var/run/docker.sock || exit 1
