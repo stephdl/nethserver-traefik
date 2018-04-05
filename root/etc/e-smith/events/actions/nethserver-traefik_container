@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+event=$1
+pid=`/usr/sbin/pidof portainer`
+
+crt='/certs/certs/portainer.crt'
+key='/certs/private/portainer.key'
+
+if [[ $pid -ne '' ]]; then
+    /usr/bin/docker container stop portainer-container || exit 1
+    /usr/bin/docker rm -f portainer-container || exit 1
+fi
+
+if [[ $event == 'portainer-upgrade' ]]; then
+    /usr/bin/docker image pull portainer/portainer:latest || exit 1
+fi
+
+/usr/bin/docker run -d -p 9000:9000 --restart unless-stopped --name portainer-container \
+    -v portainer-data:/data -v "/var/run/docker.sock:/var/run/docker.sock" \
+    -v /etc/pki/tls/:/certs:ro portainer/portainer --ssl --sslcert "${crt}" \
+    --sslkey "${key}" -H unix:///var/run/docker.sock || exit 1

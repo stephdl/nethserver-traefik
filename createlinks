@@ -1,0 +1,33 @@
+#!/usr/bin/perl -w
+
+use esmith::Build::CreateLinks qw(:all);
+
+
+my $event = 'nethserver-traefik-update';
+event_actions ( $event, 'initialize-default-databases' => '00');
+
+event_actions($event, qw(
+    nethserver-traefik_container 10
+));
+
+event_templates($event, qw (
+    /etc/pki/tls/certs/traefik.crt
+    /etc/pki/tls/private/traefik.key
+    /etc/sudoers
+    ));
+
+$event = 'traefik-upgrade';
+event_actions($event, qw(
+    nethserver-traefik_container 10
+));
+
+
+$event = 'certificate-update';
+event_actions($event, qw(
+    nethserver-traefik_container 10
+));
+
+event_templates($event, qw (
+    /etc/pki/tls/certs/traefik.crt
+    /etc/pki/tls/private/traefik.key
+    ));
