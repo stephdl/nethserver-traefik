@@ -24,6 +24,6 @@ address = ":8080"
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "cab.re"
+domain = "docker.localhost"
 watch = true
 exposedbydefault = true
