@@ -14,8 +14,8 @@ defaultEntryPoints = ["http", "https"] // 1
   address = ":443"
     [entryPoints.https.tls]
         [[entryPoints.https.tls.certificates]]
-        certFile = "tests/traefik.crt"
-        keyFile = "tests/traefik.key"
+        certFile = "/etc/pki/tls/certs/traefik.crt"
+        keyFile = "/etc/pki/tls/private/traefik.key"
 
 [web]
 address = ":8080"
