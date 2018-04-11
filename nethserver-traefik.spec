@@ -1,7 +1,7 @@
 Summary: nethserver-traefik  install traefik
 %define name nethserver-traefik
 Name: %{name}
-%define version 0.1.0
+%define version 0.1.1
 %define release 1
 Version: %{version}
 Release: %{release}%{?dist}
