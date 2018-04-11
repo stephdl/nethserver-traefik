@@ -33,9 +33,7 @@ mkdir -p root/etc/traefik
 rm -rf $RPM_BUILD_ROOT
 (cd root   ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
 rm -f %{name}-%{version}-%{release}-filelist
-%{genfilelist} \
-    --file  /usr/libexec/nethserver/ReturnTraefikInterface 'attr(0750,root,root)' \
-$RPM_BUILD_ROOT \
+%{genfilelist} $RPM_BUILD_ROOT \
 > %{name}-%{version}-%{release}-filelist
 
 %post
